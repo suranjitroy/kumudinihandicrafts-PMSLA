@@ -1,0 +1,160 @@
+@extends('layouts.app')
+
+@section('content')
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0"></h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Order Processing</li>
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+       <div class="row">
+          <div class="col-md-12">
+            <!-- /.card -->
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Order Processing</h3>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">    
+                {{-- <a href="{{ route('production-work-order.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add Production Order</a> --}}
+                <table id="store" class="table table-bordered table-striped">
+                  <thead>
+                    <tr>
+                      <th style="width: 10px">SL No</th>
+                      <th>Order No</th>
+                      <th>Order Date</th>
+                      <th>Order Delivary Date</th>
+                      <th>Order To</th>
+                      <th>Item</th>
+                      <th>Fabric</th>
+                      <th>Total Yeards</th>
+                      <th>Total Quantity</th>
+                      <th>Purpose</th>
+                      <th>Status</th>
+                      <th>Processing</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach ( $alldata as $key => $data )
+                    <tr>
+                      <td>{{ $key + 1 }}</td>
+                      <td>{{ $data->production_order_no }}</td>
+                      <td>{{ $data->order_entry_date}}</td>
+                      <td>{{ $data->order_delivery_date}}</td>
+                      <td>{{ $data->masterInfo->name }}</td>
+                      <td>{{ $data->item->name }}</td>
+                      <td>
+                          @foreach($data->productionWorkOrderFabricItem->unique('material_setup_id') as $fabric)
+                              {{ $fabric->materialSetup->material_name }}<br>
+                          @endforeach
+                      </td>
+                      <td>{{ $data->grand_total_yeard}}</td>
+                      <td>{{ $data->grand_total_quantity}}</td>
+                      <td>{{ $data->purpose }}</td>
+                      <td>
+                        @if($data->status == 0)
+                        <label class="badge bg-danger p-2" style="font-size: 16px;">Pending</label>
+                        @elseif($data->status == 2)
+                        <label class="badge bg-warning p-2" style="font-size: 16px;">Recomended</label>
+                        @else
+                        <label class="badge bg-success p-2" style="font-size: 16px;">Approved</label>
+                      </td>
+                        @endif
+
+                      <td>
+                         @if($data->orderProcessing && $data->orderProcessing->process_section_id == $data->orderProcessing->process_section_id  ) 
+                          <label class="badge bg-success p-2" style="font-size: 16px;">{{$data->orderProcessing->processSection->name}}</label>
+                         @endif
+                          {{-- @if ($data->orderProcessing && $data->orderProcessing->status == 'Tailor')
+                              <label class="badge bg-success p-2" style="font-size: 16px;">{{ $data->orderProcessing->processSection->name }} </label>
+                          @elseif ($data->orderProcessing && $data->orderProcessing->status == 'Wash')
+                              <label class="badge bg-primary p-2" style="font-size: 16px;">{{ $data->orderProcessing->status }}</label>
+                          @elseif ($data->orderProcessing && $data->orderProcessing->status == 'Embroidery')
+                              <label class="badge p-2" style="font-size: 16px; background-color:blueviolet">{{ $data->orderProcessing->status }}</label>
+                          @else
+                              <span style="color:red;">Not Processed</span>
+                              <label class="badge bg-danger p-2" style="font-size: 16px;">Not Processed</label>
+                          @endif --}}
+                      </td>
+ 
+                      <td>
+                         @role('Store Staff')
+                          <a href="{{ route('production-work-order.show', $data->id) }}" class="btn btn-info">
+                            <i class="fa fa-eye"></i>
+                          </a>
+                          {{-- @if($data->status == !2) --}}
+
+                          <a href="{{ route('orderno', $data->id ) }}" 
+                            class="btn" style="background-color:aquamarine"><i class="fa fa-edit"></i>
+                          </a>
+
+                          {{-- <form action="{{ route('production-work-order.destroy', $data->id) }}" method="POST" class="d-inline">
+                          @csrf
+                          @method('DELETE')
+                          <button class="btn btn-danger" id="delete"><i class="fa fa-trash"></i></button>
+                          </form>  --}}
+                          {{-- @endif --}}
+                        @endrole
+
+                        @role('manager')
+                          <a href="{{ route('production-work-order.show', $data->id) }}" class="btn btn-info"><i class="fa fa-eye"></i>
+                          </a>
+                          <a href="{{ route('orderno', $data->id) }}" class="btn btn-info"><i class="fa fa-edit"></i>
+                          </a>
+                          {{-- <form action="{{ route('production-work-order.destroy', $data->id) }}" method="POST" class="d-inline">
+                          @csrf
+                          @method('DELETE')
+                          <button class="btn btn-danger" id="delete"><i class="fa fa-trash"></i></button>
+                        </form>  --}}
+                        @endrole
+
+                         @role('admin')
+                          <a href="{{ route('production-work-order.show', $data->id) }}" class="btn btn-info"><i class="fa fa-eye"></i>
+                          </a>
+                          <a href="{{ route('orderno', $data->id) }}" class="btn btn-info"><i class="fa fa-edit"></i>
+                          </a>
+                          {{-- <form action="{{ route('production-work-order.destroy', $data->id) }}" method="POST" class="d-inline">
+                          @csrf
+                          @method('DELETE')
+                          <button class="btn btn-danger" id="delete"><i class="fa fa-trash"></i></button>
+                        </form>  --}}
+                        @endrole
+
+                      </td>
+                    </tr>
+                    @endforeach
+                  
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+       </div>
+      </div><!--/. container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+
+@endsection
+
+
+  

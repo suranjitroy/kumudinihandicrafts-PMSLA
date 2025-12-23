@@ -1,0 +1,399 @@
+@extends('layouts.app')
+
+@section('content')
+    @if(session('message'))
+        <script>
+        toastr.success("{{ session('success') }}");
+        </script>
+    @endif
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0"></h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Edit Purchase Requsition</li>
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+       <div class="row">
+             <!-- left column -->
+          @canany(['create store','create store requsition', 'update store requsition', 'view store requsition', 'delete store requsition'])
+          <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">Purchase Requsition Edit</h3>
+              </div>
+              <!-- /.card-header -->
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            {{-- <div class="form-group">
+                                @error('category_name')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                                
+                                
+                            <div class="input-group date" id="reservationdate" data-target-input="nearest">
+                            <input type="text" class="form-control datetimepicker-input" data-target="#reservationdate"/>
+                            <div class="input-group-append" data-target="#reservationdate" data-toggle="daterangepicker">
+                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                            </div>
+                                </div>
+                            </div> --}}
+                            {{-- <div class="form-group">
+                                <label>Date:</label>
+                                <div class="input-group date" id="entry_date" data-target-input="nearest">
+                                    <input type="text" name="entry_date" id="entry_date" class="form-control datetimepicker-input" 
+                                        data-target="#entry_date"/>
+                                    <div class="input-group-append" data-target="#entry_date" data-toggle="datetimepicker">
+                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                    </div>
+                                </div>
+                            </div> --}}
+
+                            <div class="form-group">
+                                <label>Entry Date </label>
+                                <input type="text" id="pur_requsition_date" name="pur_requsition_date" class="form-control"
+                                        value="{{ old('pur_requsition_date', isset($purRequsition) ? $purRequsition->pur_requsition_date ?? '' : '') }}">
+                            </div>
+
+                            {{-- <div class="form-group">
+                                @error('category_name')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+
+                               
+                                <label for="entry_date">Entry Date</label>
+                                <input type="text" class="form-control datetimepicker" id="entry_date" placeholder="Materialname" name="entry_date">
+                            </div> --}}
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                @error('category_name')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                                <label for="exampleInputEmail1">Requsition No</label>
+                                <input type="text" class="form-control" readonly id="pur_requsition_no" placeholder="Materialname" name="pur_requsition_no" value={{ $purRequsition->pur_requsition_no}}>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                @error('store_id')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                                <label>Select Section</label>
+                                <select class="form-control select2" name="section_id" id="section_id">
+                                    <option>Select Section</option>
+                                    @foreach ( $allSection as $section)
+                                        <option value="{{ $section->id }}" @if($section->id == $purRequsition->section_id) selected="selected" @endif>{{ $section->name }}</option>
+                                    @endforeach
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                @error('store_id')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                                <label>Select Material</label>
+                                <select class="form-control select2" name="material_setup_id" id="matID">
+                                    <option>Select Material</option>
+                                    @foreach ( $allMaterial as $material)
+                                        <option value="{{ $material->id }}">{{ $material->material_name }}</option>
+                                    @endforeach
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">   
+                                <label for="exampleInputEmail1">Stock</label>
+                                <input type="text" class="form-control" readonly="readonly" placeholder="Materialname" name="stock" id="stock">
+                            </div>
+                        </div> 
+                        <div class="col-md-3 d-none">
+                            <div class="form-group">   
+                                <label for="exampleInputEmail1">Unit ID</label>
+                                <input type="text" class="form-control" readonly="readonly" placeholder="Materialname" name="unit_id" id="unitID">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">   
+                                <label for="exampleInputEmail1">Before Date</label>
+                                <input type="text" class="form-control" readonly="readonly" placeholder="Materialname" name="entry_date" id="entryDate">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">   
+                                <label for="exampleInputEmail1">Before Quantity</label>
+                                <input type="text" class="form-control" readonly="readonly" placeholder="Materialname" name="buying_qty" id="buyingQty">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">   
+                                <label for="exampleInputEmail1">Unit Name</label>
+                                <input type="text" class="form-control" readonly="readonly" placeholder="Materialname" name="unit_name" id="unitName">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">   
+                                <label for="exampleInputEmail1">Before Unit Price</label>
+                                <input type="text" class="form-control" readonly="readonly" placeholder="Materialname" name="unit_price" id="unitPrice">
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <a class="btn btn-success addItem"><i class="fa fa-plus-circle"></i> Add Item</a>
+                    
+                    
+                </div>
+                <!-- /.card-body -->
+                
+                    <div class="card-body"> 
+                        <form method="POST" action="{{ route('purchase-requsition.update', $purRequsition->id) }}" >
+                            @csrf
+                            @method('PUT')                  
+                            <table class="table-sm table-bordered" width="100%">
+                                <input type="hidden" name="pur_requsition_date" id="pur_requsition_datee" value="{{ $purRequsition->pur_requsition_date }}">
+                                <input type="hidden" name="pur_requsition_no" value="{{ $purRequsition->pur_requsition_no }}">
+                                <input type="hidden" name="section_id" id="section_id_edit" value="{{ $purRequsition->section_id }}">
+                                <input type="hidden" name="total" value="{{ $purRequsition->total }}">
+                                <thead>
+                                    <th>Material Name</th>
+                                    <th>Quantity</th>
+                                    <th>Unit Price</th>
+                                    <th>Amount</th>
+                                    <th>Action</th>
+                                </thead>
+                                <tbody id="addRow" class="addRow">
+                                    @foreach($purRequsitionItems as $item)     
+                                        <tr class="delete_add_more_item_edit">
+                                            <input type="hidden" name="pur_requsition_no" value="{{ $item->pur_requsition_no }}">
+                                            <input type="hidden" name="material_setup_id[]" value="{{ $item->material_setup_id }}">
+                                            <input type="hidden" name="unit_id[]" value="{{ $item->unit_id }}">
+                                            <input type="hidden" name="unit_name[]" value="{{ $item->unit->name }}">
+                                            <td>
+                                                {{ $item->materialSetup->material_name }}</td>
+                                            <td>
+                                                <div class="input-group" style="width: 250px;">
+                                                <input type="text" class="form-control text-right pur_quantity" name="pur_quantity[]" value="{{$item->pur_quantity}}">
+                                                <span class="input-group-text"> {{ $item->unit->name  }}</span>
+                                                </div></td>
+                                           <td>
+                                            <input type="hidden" class="form-control text-right unit_price" name="unit_price[]" 
+                                            value="{{ $item->unit_price }}">
+                                            {{ $item->unit_price }}
+                                            </td>
+                                            <td><input type="text" class="form-control text-right purchase_req_price" name="purchase_req_price[]" value="{{$item->purchase_req_price}}"></td>
+                                            <td><i class="btn btn-danger btn-sm fa fa-window-close removeitem"></i></td>
+                                        </tr> 
+                                    @endforeach
+                                </tbody>
+                                <tbody>
+                                <td colspan="3" class="text-right text-bold">Total</td>
+                                <td>
+                                    <input type="text" name="total" id="total" class="form-control text-right total" readonly
+                                    style="" value="{{ $purRequsition->total}}">
+                                </td>
+                                
+                                <td></td>
+                            </tbody>
+                            </table>
+
+                            <button type="submit" class="btn btn-primary toastrDefaultSuccess mt-5">Update</button>  
+                        </form>
+                    </div>
+                    <div class="card-footer">
+                    
+                    </div>
+               
+
+            </div>
+          </div>
+          @endcanany
+       </div>
+      </div><!--/. container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div> 
+
+@endsection
+
+@section('scripts')
+
+{{-- <script>
+    $(function () {
+       $('input[name="entry_date"]').datetimepicker({
+        timepicker: false,   // only date
+        format: 'd-m-Y'
+    });
+});
+</script> --}}
+
+<script id="document-template" type="text/x-handlebars-template"> 
+    <tr class="delete_add_more_item" id="delete_add_more_item">
+        <input type="hidden" name="pur_requsition_no" value="@{{ pur_requsition_no }}">
+        <input type="hidden" name="material_setup_id[]" value="@{{ material_setup_id }}">
+        <input type="hidden" name="unit_id[]" value="@{{ unit_id }}">
+        <input type="hidden" name="unit_name[]" value="@{{ unit_name }}">
+        <input type="hidden" name="unit_price[]" class="unit_price" value="@{{ unit_price }}">
+        <td>@{{ material_name }}</td>
+        <td>
+            <div class="input-group" style="width: 250px;">
+            <input type="text" class="form-control text-right pur_quantity" name="pur_quantity[]" value="">
+            <span class="input-group-text"> @{{ unit_name }}</span>
+            </div></td>
+        <td> @{{ unit_price }}</td>
+        <td><input type="text" class="form-control text-right purchase_req_price" name="purchase_req_price[]"></td>
+        <td><i class="btn btn-danger btn-sm fa fa-window-close removeitem"></i></td>
+    </tr>  
+</script>
+
+<script>
+  $('#section_id').on('change', function () {
+        $('#section_id_edit').val($(this).val());
+    });
+window.addEventListener('click', function () {
+    var source = document.getElementById('pur_requsition_date');
+    var target = document.getElementById('pur_requsition_datee');
+    target.value = source.value;
+});
+</script>
+
+<script>
+    $(document).ready(function(){
+        $(document).on("click",".addItem", function(){
+
+            var pur_requsition_date   = $('#pur_requsition_date').val();
+            var pur_requsition_no     = $('#pur_requsition_no').val();
+            var section_id            = $('#section_id').val();
+            var material_setup_id     = $('#matID').val();
+            var material_name         = $('#matID').find('option:selected').text();
+            var unit_id               = $('#unitID').val();
+            var unit_name             = $('#unitName').val();
+            var unit_price            = $('#unitPrice').val();
+
+            var source   = $("#document-template").html();
+            var template = Handlebars.compile(source);
+
+            var data = {
+
+            pur_requsition_date   : pur_requsition_date,
+            pur_requsition_no     : pur_requsition_no,
+            section_id            : section_id,
+            material_setup_id     : material_setup_id,
+            material_name         : material_name,
+            unit_id               : unit_id,
+            unit_name             : unit_name,
+            unit_price            : unit_price
+
+            }
+
+            var html = template(data);
+            $("#addRow").append(html);
+
+        });
+
+        $(document).on("click",".removeitem", function(event){
+
+        $(this).closest(".delete_add_more_item_edit").remove();
+        $(this).closest(".delete_add_more_item").remove();
+        
+        totalAmountPrice();
+        });
+
+         $(document).on('keyup click','.pur_quantity,.unit_price', function(){
+
+            var pur_quantity = $(this).closest("tr").find("input.pur_quantity").val();
+            var unit_price = $(this).closest("tr").find("input.unit_price").val();
+
+            var total = pur_quantity * unit_price;
+
+            $(this).closest("tr").find("input.purchase_req_price").val(total);
+            totalAmountPrice();
+        });
+
+        function totalAmountPrice(){
+            var sum = 0;
+            $(".purchase_req_price").each(function(){
+                var value = $(this).val();
+                if(!isNaN(value) && value.length !=0){
+                    sum += parseFloat(value);
+                }
+            });
+            $('#total').val(sum);
+        }
+
+    });
+</script>
+
+<script>
+    $(document).ready(function(){
+        $('#matID').change(function(event){
+        var idMat = this.value;
+            $.ajax({
+                        url: "{{ url('/get-material-requsition') }}",
+                        type: 'GET',
+                        dataType: 'json',
+                        data: {
+                        material_setup_id: idMat,
+                        _token: "{{ csrf_token() }}"
+                        },
+                        success:function(data){ 
+                        
+                        let material = data;
+                        $('#stock').val(material.quantity);
+                        $('#unitName').val(material.unit.name);
+                        $('#unitID').val(material.unit_id);
+                        $('#unitPrice').val(material.unit_price);
+                        if (material.purchase_item.length > 0) {
+                        $('#entryDate').val(material.purchase_item[0].entry_date);
+                        $('#buyingQty').val(material.purchase_item[0].buying_qty);
+                        $('#unitPrice').val(material.purchase_item[0].unit_price);
+                        }else{
+                            $("#entryDate").val('00-00-0000');
+                            $("#buyingQty").val(0);
+                            $("#unitPrice").val(0);
+                        }
+
+                        }
+
+                    });
+        
+        });
+
+    });
+</script>
+
+
+<script>
+    $(document).ready(function () {
+        $('#pur_requsition_date').datetimepicker({
+            format: 'd-m-Y'  // Format compatible with MySQL DATETIME
+             
+        });
+    });
+</script>
+
+@endsection 
+
+
+
+
+
+  
