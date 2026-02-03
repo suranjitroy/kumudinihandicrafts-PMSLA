@@ -335,7 +335,7 @@
                                             </tbody>
                                         </table>
                                     </div>
-                              <div class="col-md-12">
+                                <div class="col-md-12">
                                     <div class="form-group">   
                                         <label for="exampleInputEmail1">Purpose</label>
                                         {{-- <input type="text" class="form-control" placeholder="purpose" name="purpose" id="purpose"> --}}

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ArtisanGroupController;
 use App\Models\Purchase;
 use App\Models\ProductType;
 use Illuminate\Support\Facades\Route;
@@ -10,10 +11,12 @@ use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\BaharController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\StockController;
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\AssignController;
 use App\Http\Controllers\SectionController;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\DesignInfoController;
 use App\Http\Controllers\MasterInfoController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\WorkerInfoController;
@@ -21,18 +24,22 @@ use App\Http\Controllers\ProductTypeController;
 use App\Http\Controllers\OrderReceiveController;
 use App\Http\Controllers\MaterialSetupController;
 use App\Http\Controllers\StoreCategoryController;
+use App\Http\Controllers\ProcessSectionController;
+use App\Notifications\StoreRequsitionNotification;
 use App\Http\Controllers\MaterialReceiveController;
 use App\Http\Controllers\OrderProcessingController;
+use App\Http\Controllers\OtherOrderSheetController;
 use App\Http\Controllers\PurchaseReceiveController;
 use App\Http\Controllers\SampleWorkOrderController;
 use App\Http\Controllers\StoreRequsitionController;
 use App\Http\Controllers\ConsumptionSetupController;
+use App\Http\Controllers\EmbOrderSheetController;
+use App\Http\Controllers\EmbroideryOrderController;
 use App\Http\Controllers\OrderDistributionController;
-use App\Http\Controllers\OtherOrderSheetController;
-use App\Http\Controllers\ProcessSectionController;
 use App\Http\Controllers\PurchaseRequsitionController;
 use App\Http\Controllers\ProductionWorkOrderController;
-use App\Notifications\StoreRequsitionNotification;
+use App\Http\Controllers\OtherOrderSheetTotalController;
+use App\Http\Controllers\ProductionChallanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -101,6 +108,7 @@ Route::get('/markasread/{id}', [StoreRequsitionController::class, 'markasread'])
 Route::get('/notifications/count', [StoreRequsitionController::class, 'count'])->name('notifications.count');
 
 Route::get('/notifications/list', [StoreRequsitionController::class, 'nshow'])->name('notifications.list');
+// Route::get('/notifications/list', [OtherOrderSheetController::class, 'nshow'])->name('notifications.listOther');
 
 
 // Route::get('/notify', [StoreRequsitionController::class, 'notification']);
@@ -181,14 +189,45 @@ Route::resource('/order-receive', OrderReceiveController::class);
 
 //Others Order Sheet Routing Start
 Route::resource('/other-order-sheet', OtherOrderSheetController::class);
+Route::post('/other-order-sheet/{id}/recommended', [OtherOrderSheetController::class,'recommend'])->name('other-order-sheet.recommended');
+Route::post('/other-order-sheet/{id}/approve', [OtherOrderSheetController::class,'otherOrderApprove'])->name('other-order-sheet.approve');
+//Others Order Sheet Routing End
 
+//Others Order Sheet Routing Start
+Route::resource('/other-order-sheet-total', OtherOrderSheetTotalController::class);
+Route::post('/other-order-sheet-total/{id}/recommended', [OtherOrderSheetTotalController::class,'recommend'])->name('other-order-sheet-total.recommended');
+Route::post('/other-order-sheet-total/{id}/approve', [OtherOrderSheetTotalController::class,'otherOrderApprove'])->name('other-order-sheet-total.approve');
 //Others Order Sheet Routing End
 
 // Product Setup Routing Start
 
 Route::resource('/product-type', ProductTypeController::class);
 
+Route::get('/fabric-stock', [StockController::class,'fabric'])->name('fabric.stock');
+Route::get('/accessories-stock', [StockController::class,'accessories'])->name('accessories.stock');
+
+//Design Routing Start
+Route::resource('design-info', DesignInfoController::class);
+Route::resource('production-challan', ProductionChallanController::class);
+Route::get('/get-work-order/{id}', [ProductionChallanController::class, 'getWorkOrder']);
+Route::post('/production-challan/{id}/recommended', [ProductionChallanController::class,'recommend'])->name('production-challan.recommended');
+Route::post('/production-challan/{id}/approve', [ProductionChallanController::class,'productionChallanApprove'])->name('production-challan.approve');
+
+//Design Routing End
+
 // Product Setup Routing End
+
+Route::resource('artisan-group', ArtisanGroupController::class);
+Route::resource('emb-order-sheet', EmbroideryOrderController::class);
+
+
+Route::get(
+    'get-production-challan-details/{id}',
+    [EmbroideryOrderController::class, 'getChallanDetails']
+)->name('get.challan.details');
+
+Route::post('/emb-order-sheet/{id}/recommended', [EmbroideryOrderController::class,'recommend'])->name('emb-order-sheet.recommended');
+Route::post('/emb-order-sheet/{id}/approve', [EmbroideryOrderController::class,'embroideryOrderApprove'])->name('emb-order-sheet.approve');
 
 
 

@@ -28,7 +28,7 @@
             <!-- /.card -->
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Material Setup List</h3>
+                <h3 class="card-title">Material Receive List</h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
@@ -64,6 +64,7 @@
                     
                       
                       <td>
+                        @role('Store Staff')
                          @can('update store')
 
                           <a href="{{ route('purchase-receive.show', $data->id) }}" class="btn btn-info"><i class="fa fa-eye"></i>
@@ -84,6 +85,9 @@
                         </form>
                           @endif 
                          @endcan
+                         @endrole
+
+                         
                       </td>
                     </tr>
                     @endforeach

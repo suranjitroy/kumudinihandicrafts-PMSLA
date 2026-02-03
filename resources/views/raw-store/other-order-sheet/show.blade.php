@@ -36,7 +36,7 @@
                 <div class="col-12">
                   <h4>
                     <i class="fas fa-globe"></i> Kumudini Handicrafts
-                    {{-- <small class="float-right">Date: </small> --}}
+                    <small class="float-right">Date: </small>
                   </h4>
                 </div>
                 <!-- /.col -->

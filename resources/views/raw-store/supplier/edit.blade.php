@@ -99,7 +99,7 @@
                     <div class="form-group">
                       @error('store_id')
                          <div class="alert alert-danger">{{ $message }}</div>
-                    @enderror
+                      @enderror
                         <label>Status</label>
                         <select class="form-control" name="status">
                           <option>Select Status</option>
@@ -107,7 +107,7 @@
                           <option value="1" @if($supplier->status == 1) selected="selected" @endif>Inactive</option>
                          
                         </select>
-                      </div>
+                    </div>
                   
                 </div>
                 <!-- /.card-body -->

@@ -39,10 +39,13 @@
                 <table id="store" class="table table-bordered table-striped">
                   <thead>
                     <tr>
-                      <th style="width: 10px">SL No</th>
+                    <th style="width: 10px">SL No</th>
                       <th>Other Order No</th>
                       <th>Other Order Entry Date</th>
-                      <th>Request From</th>
+                      <th>Section Name</th>
+                      <th>Material Name</th>
+                      <th>Quantity</th>
+                      <th>Remarks</th>
                       <th>Status</th>
                       <th>Action</th>
                     </tr>
@@ -51,9 +54,12 @@
                     @foreach ( $alldata as $key => $data )
                     <tr>
                       <td>{{ $key + 1 }}</td>
-                      <td>{{ $data->requsition_no }}</td>
-                      <td>{{ $data->requsition_date}}</td>
+                      <td>{{ $data->other_order_no }}</td>
+                      <td>{{ $data->other_order_entry_date}}</td>
                       <td>{{ $data->section->name}}</td>
+                      <td>{{ $data->materialSetup->material_name}}</td>
+                      <td>{{ $data->quantity}} {{ $data->unit->name}} </td>
+                      <td>{{ $data->remarks}} </td>
                      <td>
                        @if($data->status == 0)
                       <label class="badge bg-danger p-2" style="font-size: 16px;">Pending</label>
@@ -66,25 +72,27 @@
                       
                       <td>
                          @role('Store Staff')
-                          <a href="{{ route('store-requsition.show', $data->id) }}" class="btn btn-info"><i class="fa fa-eye"></i>
-                          </a>
                           @if($data->status == !2)
-                          <a href="{{ route('store-requsition.edit', $data->id) }}" class="btn btn-info"><i class="fa fa-edit"></i>
+                          <a href="{{ route('other-order-sheet.edit', $data->id) }}" class="btn btn-info"><i class="fa fa-edit"></i>
                           </a>
-                          <form action="{{ route('store-requsition.destroy', $data->id) }}" method="POST" class="d-inline">
+                          <form action="{{ route('other-order-sheet.destroy', $data->id) }}" method="POST" class="d-inline">
                           @csrf
                           @method('DELETE')
                           <button class="btn btn-danger" id="delete"><i class="fa fa-trash"></i></button>
-                        </form> 
+                          </form> 
                           @endif
                         @endrole
 
                         @role('manager')
-                          <a href="{{ route('store-requsition.show', $data->id) }}" class="btn btn-info"><i class="fa fa-eye"></i>
+                         @if($data->status == 0) 
+                            <form action="{{ route('other-order-sheet.recommended', $data->id) }}" method="POST" class="d-inline">
+                                  @csrf
+                                  <button class="btn btn-warning"><i class="fa fa-check-circle"></i>Recommended</button> 
+                            </form>
+                          @endif
+                          <a href="{{ route('other-order-sheet.edit', $data->id) }}" class="btn btn-info"><i class="fa fa-edit"></i>
                           </a>
-                          <a href="{{ route('store-requsition.edit', $data->id) }}" class="btn btn-info"><i class="fa fa-edit"></i>
-                          </a>
-                          <form action="{{ route('store-requsition.destroy', $data->id) }}" method="POST" class="d-inline">
+                          <form action="{{ route('other-order-sheet.destroy', $data->id) }}" method="POST" class="d-inline">
                           @csrf
                           @method('DELETE')
                           <button class="btn btn-danger" id="delete"><i class="fa fa-trash"></i></button>
@@ -92,11 +100,15 @@
                         @endrole
 
                          @role('admin')
-                          <a href="{{ route('store-requsition.show', $data->id) }}" class="btn btn-info"><i class="fa fa-eye"></i>
+                          @if($data->status == 2)
+                          <form action="{{ route('other-order-sheet.approve', $data->id) }}" method="POST" class="d-inline">
+                              @csrf
+                              <button class="btn btn-success"><i class="fa fa-check-circle"></i>Approve</button>
+                          </form>
+                          @endif
+                          <a href="{{ route('other-order-sheet.edit', $data->id) }}" class="btn btn-info"><i class="fa fa-edit"></i>
                           </a>
-                          <a href="{{ route('store-requsition.edit', $data->id) }}" class="btn btn-info"><i class="fa fa-edit"></i>
-                          </a>
-                          <form action="{{ route('store-requsition.destroy', $data->id) }}" method="POST" class="d-inline">
+                          <form action="{{ route('other-order-sheet.destroy', $data->id) }}" method="POST" class="d-inline">
                           @csrf
                           @method('DELETE')
                           <button class="btn btn-danger" id="delete"><i class="fa fa-trash"></i></button>

@@ -178,7 +178,7 @@
                                             <input type="hidden" name="requsition_no" value="{{ $item->requsition_no }}">
                                             <input type="hidden" name="material_setup_id[]" value="{{ $item->material_setup_id }}">
                                             <input type="hidden" name="unit_id[]" value="{{ $item->unit_id }}">
-                                            <input type="hidden" name="unit_name[]" value="{{ $item->unit_name }}">
+                                            <input type="text" name="unit_name[]" value="{{ $item->unit_name }}">
                                             <td>
                                                 {{ $item->materialSetup->material_name }}</td>
                                             <td>

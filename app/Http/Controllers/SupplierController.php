@@ -15,7 +15,7 @@ class SupplierController extends Controller
         $suppliers = Supplier::all();
         return view('raw-store.supplier.index', compact('suppliers'));
 
-     }
+    }
 
     /**
      * Show the form for creating a new resource.

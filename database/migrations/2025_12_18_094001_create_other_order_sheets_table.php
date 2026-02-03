@@ -24,6 +24,20 @@ return new class extends Migration
             $table->foreign('section_id')->references('id')->on('sections')
             ->cascadeOnUpdate()->restrictOnDelete();
 
+            $table->unsignedBigInteger('material_setup_id');
+
+            $table->foreign('material_setup_id')->references('id')->on('material_setups')
+            ->cascadeOnUpdate()->restrictOnDelete();
+            
+            $table->decimal('quantity', 8, 2);
+
+            $table->unsignedBigInteger('unit_id');
+
+            $table->foreign('unit_id')->references('id')->on('units')
+            ->cascadeOnUpdate()->restrictOnDelete();
+
+            $table->longText('remarks');
+
             $table->tinyInteger('status')->comment('0=Pending, 1=Approved, 2=Recomended');
 
             $table->unsignedBigInteger('approved_by')->nullable();

@@ -172,7 +172,7 @@
                 notifications.forEach(function (item) {
                     html += `
                         <p class="dropdown-item">
-                            <strong>${item.data.requsition_no} ${item.data.title}</strong><br>
+                            <strong>${item.data.no} ${item.data.title}</strong><br>
                             <small>${item.data.message}</small>
                         </p>
                         <a href=" ${markAsReadUrl}/${item.id} " class="p-2 text-white bg-red rounded-lg">Mark as read</a>

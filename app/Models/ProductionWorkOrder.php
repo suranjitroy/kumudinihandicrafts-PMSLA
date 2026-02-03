@@ -26,6 +26,10 @@ class ProductionWorkOrder extends Model
         return $this->belongsTo(Item::class);
     }
 
+    public function materialSetup(){
+        return $this->belongsTo(MaterialSetup::class);
+    }
+
     public function productionWorkOrderFabricItem(){
         return $this->hasMany(ProductionWorkOrderFabricItem::class, 'production_work_order_id', 'id');
     }

@@ -487,14 +487,34 @@ class ProductionWorkOrderController extends Controller
                     $data->status = 1;
                     $data->save();
 
+                    $material = MaterialSetup::find($data->material_setup_id);
+
+                    if($material){
+
+                        $material->quantity = $material->quantity - $data->total_yeard;
+
+                        $material->save();
+
+                    }
+
                 }
 
             $allDataAc = ProductionWorkOrderAccessoriesItem::where('production_work_order_id', $productionOrder->id)->get();
                 
                 foreach($allDataAc as $data){  
+
                     $data->status = 1;
                     $data->save();
 
+                    $material = MaterialSetup::find($data->material_setup_id);
+
+                    if($material){
+
+                        $material->quantity = $material->quantity - $data->order_quantity;
+
+                        $material->save();
+
+                    }
                 }
 
                 DB::commit();

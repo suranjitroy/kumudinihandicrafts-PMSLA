@@ -56,6 +56,8 @@ class StoreRequsitionController extends Controller
      */
     public function store(Request $request)
     {
+
+     
         if($request->material_setup_id == null){
 
              $notification = array('message'=>'Sorry! you do not select any material', 'alert-type' => 'error');
@@ -63,6 +65,7 @@ class StoreRequsitionController extends Controller
             return redirect()->back()->with($notification);
         }
         else{
+            
             DB::beginTransaction();
 
             try{
@@ -149,7 +152,7 @@ class StoreRequsitionController extends Controller
      */
     public function show(StoreRequsition $storeRequsition)
     {
-        //
+        
         $requsition = StoreRequsition::with('section')->findOrfail($storeRequsition->id);
         $requsitionItems = StoreRequsitionItem::with('materialSetup','unit')->where('store_requsition_id', $requsition->id)->get();
         
@@ -257,7 +260,7 @@ class StoreRequsitionController extends Controller
      */
     public function destroy(StoreRequsition $storeRequsition)
     {
-        //
+        
         DB::beginTransaction();
 
         try {
@@ -316,8 +319,6 @@ class StoreRequsitionController extends Controller
 
     public function storeRequsitionApprove($id){
 
-
-
         DB::beginTransaction();
 
         try {
@@ -334,7 +335,6 @@ class StoreRequsitionController extends Controller
         // PurchaseItem::where('purchase_id', $purchase->id)->update(['status' => $purchase->status]);
 
             $alldata = StoreRequsitionItem::where('store_requsition_id', $requsition->id)->get();
-
 
                 foreach($alldata as $data){
                     
@@ -356,15 +356,13 @@ class StoreRequsitionController extends Controller
                 $notification = array('message'=>'Purchase Approved Successfully!', 'alert-type' => 'success');
                 return redirect()->back()->with($notification);
 
-
             } catch (\Exception $e) {
                 DB::rollBack();
                 return redirect()->back()->with('error', $e->getMessage());
             }
-        
-        
 
     }
+
     public function recommend($id)
     {
         DB::beginTransaction();

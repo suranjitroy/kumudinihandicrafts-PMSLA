@@ -62,7 +62,7 @@ class SampleWorkOrderController extends Controller
         $lastSampleOrderNo = SampleWorkOrder::lockForUpdate()->latest('id')->first();
              //dd($lastSampleOrderNo);
                 if ($lastSampleOrderNo) {
-                    $lastNumber = intval(substr($lastSampleOrderNo->sample_order_no, 7));
+                    $lastNumber = intval(substr($lastSampleOrderNo->sample_order_no, 6));
                     $nextNumber = $lastNumber + 1;
                 } else {
                     $nextNumber = 1;
@@ -719,6 +719,16 @@ class SampleWorkOrderController extends Controller
                     $data->status = 1;
                     $data->save();
 
+                    $material = MaterialSetup::find($data->material_setup_id);
+
+                    if($material){
+
+                        $material->quantity = $material->quantity - $data->total_yeard;
+
+                        $material->save();
+
+                    }
+
                 }
 
             $allDataAc = SampleWorkOrderAccessoriesItem::where('sample_work_order_id', $sampleOrder->id)->get();
@@ -726,6 +736,16 @@ class SampleWorkOrderController extends Controller
                 foreach($allDataAc as $data){  
                     $data->status = 1;
                     $data->save();
+
+                    $material = MaterialSetup::find($data->material_setup_id);
+
+                    if($material){
+
+                        $material->quantity = $material->quantity - $data->sample_quantity;
+
+                        $material->save();
+
+                    }
 
                 }
 

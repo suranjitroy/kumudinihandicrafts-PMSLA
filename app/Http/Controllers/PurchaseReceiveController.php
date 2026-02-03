@@ -297,7 +297,8 @@ class PurchaseReceiveController extends Controller
         }
     }
 
-     public function getMaterialData(Request $request){
+     public function getMaterialData(Request $request)
+     {
         
         $data['materialID'] = MaterialSetup::with('unit')
         ->where('id', $request->material_setup_id)

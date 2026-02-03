@@ -74,7 +74,7 @@
           </li>
           @endrole
           @role('Store Staff')
-          <li class="nav-header">Manage Stores</li>
+          {{-- <li class="nav-header">Manage Stores</li> --}}
             <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-copy"></i>
@@ -137,11 +137,17 @@
                   <p>Worker Information Entry</p>
                 </a>
               </li>
+               <li class="nav-item">
+                <a href="{{ route('artisan-group.index') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Artisan Group Entry</p>
+                </a>
+              </li>
             </ul>
             </li>
           @endrole
-           @role('Store Staff')
-          <li class="nav-header">Manage Purchase</li>
+           @role('Store Staff|manager|admin')
+          {{-- <li class="nav-header">Manage Purchase</li> --}}
             <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-copy"></i>
@@ -408,12 +414,44 @@
 
 
             </ul>
+
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Embroidery Orders</p>
+                  <i class="right fas fa-angle-left"></i>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="{{ route('emb-order-sheet.index') }}" class="nav-link">
+                      <i class="far fa-dot-circle nav-icon"></i>
+                      <p>Embroidery Order</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      <i class="far fa-dot-circle nav-icon"></i>
+                      <p>Pending Purchase Requsition</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      <i class="far fa-dot-circle nav-icon"></i>
+                      <p>Approval Purchase Requsition</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+
+
+            </ul>
             
         </li>
           @endrole
 
-          @role('Store Staff|manager|admin')
-         <li class="nav-item">
+        @role('Store Staff|manager|admin')
+        <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-copy"></i>
               <p>
@@ -423,12 +461,12 @@
             </a>
             <ul class="nav nav-treeview">
 
-              <li class="nav-item">
+            <li class="nav-item">
                 <a href="{{ route('process-section.index') }}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Process Section Entry</p>
                 </a>
-              </li>
+            </li>
 
               
 
@@ -525,6 +563,7 @@
             
         </li>
         @endrole
+        
 
         @role('Store Staff|manager|admin')
         <li class="nav-item">
@@ -546,9 +585,35 @@
         </li>
         @endrole
 
-         @role('Store Staff')
-          <li class="nav-header">Other Order Sheet Section</li>
+        @role('Store Staff|manager|admin')
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-copy"></i>
+              <p>
+                Manage Stock
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
             <li class="nav-item">
+              <a href="{{ route('fabric.stock') }}" class="nav-link">
+                <i class="far fa-dot-circle nav-icon"></i>
+                <p>Fabric Stock</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{{ route('accessories.stock') }}" class="nav-link">
+                <i class="far fa-dot-circle nav-icon"></i>
+                <p>Accessories Stock</p>
+              </a>
+            </li>
+            </ul>
+        </li>
+        @endrole
+
+         @role('Store Staff|manager|admin')
+          {{-- <li class="nav-header">Other Order Sheet Section</li> --}}
+          <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-copy"></i>
               <p>
@@ -562,57 +627,67 @@
                   <i class="far fa-circle nav-icon"></i>
                   <p>Order Sheet</p>
                 </a>
-              </li>
-              
-
-              <li class="nav-item">
-                <a href="{{ route('store-category.index') }}" class="nav-link">
+                <a href="{{ route('other-order-sheet-total.index') }}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Store Category</p>
+                  <p>Order Sheet Total</p>
                 </a>
               </li>
 
-              <li class="nav-item">
-                <a href="{{ route('unit.index') }}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Unit</p>
-                </a>
-              </li>
-              
-               <li class="nav-item">
-                <a href="{{ route('material-setup.index') }}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Material Setup</p>
-                </a>
-              </li>
-
-              <li class="nav-item">
-                <a href="{{ route('supplier.index') }}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Supplier</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{ route('section.index') }}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Section</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{ route('master-info.index') }}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Master Information Entry</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{ route('worker-info.index') }}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Worker Information Entry</p>
-                </a>
-              </li>
             </ul>
-            </li>
-          @endrole
+          </li>
+         @endrole
+
+         @role('Store Staff|manager|admin')
+          {{-- <li class="nav-header">Design Section</li> --}}
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-copy"></i>
+              <p>
+                Manage Design
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ route('design-info.index') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Design Entry</p>
+                </a>
+                <a href="{{ route('other-order-sheet-total.index') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Order Sheet Total</p>
+                </a>
+              </li>
+
+            </ul>
+          </li>
+         @endrole
+
+         @role('Store Staff|manager|admin')
+          {{-- <li class="nav-header">Design Section</li> --}}
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-copy"></i>
+              <p>
+                Manage Challan
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ route('production-challan.index') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Production Challan</p>
+                </a>
+                <a href="{{ route('other-order-sheet-total.index') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Other Challan</p>
+                </a>
+              </li>
+
+            </ul>
+          </li>
+         @endrole
          <!--Layout Option End-->
 
           <!--Layout Option-->
