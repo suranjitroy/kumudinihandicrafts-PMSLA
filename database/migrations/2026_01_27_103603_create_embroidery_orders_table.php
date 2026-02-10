@@ -28,7 +28,9 @@ return new class extends Migration
             $table->foreign('production_challan_id')->references('id')->on('production_challans')
             ->cascadeOnUpdate()->restrictOnDelete();
 
-            $table->string('name')->nullable();
+            $table->string('product_name')->nullable();
+            $table->string('design_name')->nullable();
+            $table->string('color_name')->nullable();
             $table->text('description')->nullable();
 
             $table->integer('quantity');

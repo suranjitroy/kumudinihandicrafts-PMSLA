@@ -105,9 +105,24 @@
                     @error('phn_no')
                          <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
-                    <label for="exampleInputEmail1">Name</label>
-                    <input type="text" class="form-control" placeholder="name" name="name">
+                    <label for="exampleInputEmail1">Product Name</label>
+                    <input type="text" class="form-control" placeholder="product name" name="product_name">
                   </div>
+                  <div class="form-group">
+                    @error('phn_no')
+                         <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
+                    <label for="exampleInputEmail1">Design Name</label>
+                    <input type="text" class="form-control" placeholder="design name" name="design_name">
+                  </div>
+                  <div class="form-group">
+                    @error('phn_no')
+                         <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
+                    <label for="exampleInputEmail1">Color Name</label>
+                    <input type="text" class="form-control" placeholder="color name" name="color_name">
+                  </div>
+                  
                   <div class="form-group">
                     @error('phn_no')
                          <div class="alert alert-danger">{{ $message }}</div>

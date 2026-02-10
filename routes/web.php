@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\ArtisanGroupController;
 use App\Models\Purchase;
 use App\Models\ProductType;
 use Illuminate\Support\Facades\Route;
@@ -21,11 +20,14 @@ use App\Http\Controllers\MasterInfoController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\WorkerInfoController;
 use App\Http\Controllers\ProductTypeController;
+use App\Http\Controllers\ArtisanGroupController;
 use App\Http\Controllers\OrderReceiveController;
+use App\Http\Controllers\EmbOrderSheetController;
 use App\Http\Controllers\MaterialSetupController;
 use App\Http\Controllers\StoreCategoryController;
 use App\Http\Controllers\ProcessSectionController;
 use App\Notifications\StoreRequsitionNotification;
+use App\Http\Controllers\EmbroideryOrderController;
 use App\Http\Controllers\MaterialReceiveController;
 use App\Http\Controllers\OrderProcessingController;
 use App\Http\Controllers\OtherOrderSheetController;
@@ -33,13 +35,13 @@ use App\Http\Controllers\PurchaseReceiveController;
 use App\Http\Controllers\SampleWorkOrderController;
 use App\Http\Controllers\StoreRequsitionController;
 use App\Http\Controllers\ConsumptionSetupController;
-use App\Http\Controllers\EmbOrderSheetController;
-use App\Http\Controllers\EmbroideryOrderController;
 use App\Http\Controllers\OrderDistributionController;
+use App\Http\Controllers\ProductionChallanController;
 use App\Http\Controllers\PurchaseRequsitionController;
 use App\Http\Controllers\ProductionWorkOrderController;
 use App\Http\Controllers\OtherOrderSheetTotalController;
-use App\Http\Controllers\ProductionChallanController;
+use App\Http\Controllers\EmbroideryOrderReceiveController;
+use App\Http\Controllers\EmbroideryOrderProcessingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -228,11 +230,17 @@ Route::get(
 
 Route::post('/emb-order-sheet/{id}/recommended', [EmbroideryOrderController::class,'recommend'])->name('emb-order-sheet.recommended');
 Route::post('/emb-order-sheet/{id}/approve', [EmbroideryOrderController::class,'embroideryOrderApprove'])->name('emb-order-sheet.approve');
-
-
-
 });
 
+Route::resource('embroidery-receive', EmbroideryOrderReceiveController::class);
+
+Route::get('get-embroidery-order/{id}', 
+    [EmbroideryOrderReceiveController::class, 'getEmbroideryOrder']
+);
+
+
+// routes/web.php
+Route::resource('embroidery-process', EmbroideryOrderProcessingController::class);
 
 
 

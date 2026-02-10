@@ -50,9 +50,7 @@
                     <strong>Embroidery Order No : {{ $embOrder->emb_order_no }}</strong><br>
                     <strong>Order To : {{ $embOrder->artisanGroup->group_name }}</strong><br>
                     <strong>Challan No: {{ $embOrder->productionChallan->pro_challan_no }}</strong><br>
-                    <strong>Product Name : {{ $embOrder->product_name }}</strong><br>
-                    <strong>Design Name : {{ $embOrder->design_name }}</strong><br>
-                    <strong>Color Name : {{ $embOrder->color_name }}</strong><br>
+                    <strong>Name : {{ $embOrder->name }}</strong><br>
                     <strong>Description : {{ $embOrder->description }}</strong><br>
                     <strong>Quantity : {{ $embOrder->quantity }}</strong><br>
                     <strong>Unit Price : {{ $embOrder->unit_price }}</strong><br>

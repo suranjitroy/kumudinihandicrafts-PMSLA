@@ -12,7 +12,7 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Embroidery Order</li>
+              <li class="breadcrumb-item active">Embroidery Received</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -28,61 +28,42 @@
             <!-- /.card -->
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Embroidery Order List</h3>
+                <h3 class="card-title">Embroidery Order Received List</h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
                 
-                  <a href="{{ route('emb-order-sheet.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add Embroidery Order</a>
+                  <a href="{{ route('embroidery-receive.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add Embroidery Order Received</a>
                 
                 
                 <table id="store" class="table table-bordered table-striped">
                   <thead>
                     <tr>
                       <th>SL No</th>
+                      <th>Order Received Date</th>
                       <th>Embroidery Order No</th>
-                      <th>Order Entry Date</th>
-                      <th>Order Delivery Date</th>
-                      <th>Order To</th>
-                      <th>Challan No</th>
-                      <th>Product Name</th>
-                      <th>Design Name</th>
-                      <th>Color Name</th>
-                      <th>Description</th>
-                      <th>Quantity</th>
-                      <th>Unit Price</th>
-                      <th>Total</th>
+                      <th>Received Quantity</th>
+                      <th>Remark</th>
                       <th>Status</th>
                       <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
-                    @foreach ( $orders as $key => $data )
+                    @foreach ( $receives as $key => $data )
                     <tr>
                       <td>{{ $key + 1 }}</td>
-                      <td>{{ $data->emb_order_no }}</td>
-                      <td>{{ $data->order_entry_date }}</td>
-                      <td>{{ $data->order_delivery_date }}</td>
-                      <td>{{ $data->artisanGroup->group_name }}</td>
-                      <td>{{ $data->productionChallan->pro_challan_no }}</td>
-                      <td>{{ $data->product_name }}</td>
-                      <td>{{ $data->design_name }}</td>
-                      <td>{{ $data->color_name }}</td>
-                      <td>{{ $data->description }}</td>
-                      <td>{{ $data->quantity }} Pcs </td>
-                      <td>{{ $data->unit_price }} </td>
-                      <td>{{ $data->total }} </td>
+                      <td>{{ $data->receive_date }}</td>
+                      <td>{{ $data->embroideryOrder->emb_order_no }}</td>
+                      <td>{{ $data->receive_quantity }}</td>
+
+                      <td>{{ $data->remark }}</td>
                      <td>
-                       @if($data->status == 0)
-                      <label class="badge bg-danger p-2" style="font-size: 16px;">Pending</label>
-                      @elseif($data->status == 2)
-                      <label class="badge bg-warning p-2" style="font-size: 16px;">Recomended</label>
-                      @else
-                      <label class="badge bg-success p-2" style="font-size: 16px;">Approved</label>
+                       @if($data->status == 1)
+                      <label class="badge bg-success p-2" style="font-size: 16px;">Received</label>
                      </td>
                       @endif
                       
-                      <td>
+                      {{-- <td>
                          @role('Store Staff')
                           <a href="{{ route('emb-order-sheet.show', $data->id) }}" class="btn btn-info"><i class="fa fa-eye"></i>
                           @if($data->status == !2)
@@ -118,16 +99,21 @@
                         </form> 
                         @endrole
 
+                       
+                      </td> --}}
+                      <td>
+                        @can('update store')
+                          <a href="{{ route('embroidery-receive.edit', $data->id) }}" class="btn btn-info"><i class="fa fa-edit"></i>
+                          </a>
+                        @endcan
                         {{-- <a href="{{ route('store.delete', $store->id) }}" class="btn btn-danger" id="delete">Delete</a> --}}
-                        {{-- @can('delete store')
-                        @if($data->status !== 1)
-                        <form action="{{ route('store-requsition.destroy', $data->id) }}" method="POST" class="d-inline">
+                        @can('delete store')
+                        <form action="{{ route('embroidery-receive.destroy', $data->id) }}" method="POST" class="d-inline">
                           @csrf
                           @method('DELETE')
                           <button class="btn btn-danger" id="delete"><i class="fa fa-trash"></i></button>
                         </form>
-                          @endif 
-                         @endcan --}}
+                         @endcan
                       </td>
                     </tr>
                     @endforeach

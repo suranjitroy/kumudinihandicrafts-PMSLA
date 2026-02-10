@@ -688,6 +688,40 @@
             </ul>
           </li>
          @endrole
+
+         @role('Store Staff|manager|admin')
+          {{-- <li class="nav-header">Design Section</li> --}}
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-copy"></i>
+              <p>
+                Manage Embroidery
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                    <a href="{{ route('emb-order-sheet.index') }}" class="nav-link">
+                      <i class="far fa-dot-circle nav-icon"></i>
+                      <p>Embroidery Order</p>
+                    </a>
+              </li>
+              <li class="nav-item">
+                  <a href="{{ route('embroidery-receive.index') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                    <p>Embroidery Order Receive</p>
+                </a>
+                <a href="{{ route('embroidery-process.index') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Embroidery Order Process</p>
+                </a>
+              </li>
+
+
+
+            </ul>
+          </li>
+         @endrole
          <!--Layout Option End-->
 
           <!--Layout Option-->

@@ -52,13 +52,15 @@ class EmbroideryOrderController extends Controller
             'unit_price'           => 'required|numeric',
         ]);
 
-        EmbroideryOrder::create([
+        $embOrder = EmbroideryOrder::create([
             'order_entry_date'     => $request->order_entry_date,
             'order_delivery_date'  => $request->order_delivery_date,
             'emb_order_no'         => EmbroideryOrderHelper::generateOrderNo(),
             'artisan_group_id'     => $request->artisan_group_id,
             'production_challan_id'=> $request->production_challan_id,
-            'name'                 => $request->name,
+            'product_name'         => $request->product_name,
+            'design_name'          => $request->design_name,
+            'color_name'           => $request->color_name,
             'description'          => $request->description,
             'quantity'             => $request->quantity,
             'unit_price'           => $request->unit_price,
@@ -67,6 +69,12 @@ class EmbroideryOrderController extends Controller
             'user_id'              => Auth::user()->id,
             'created_by'           => Auth::user()->user_name
         ]);
+
+        $users = User::whereIn('id', [4, 5])->get();
+
+        foreach ($users as $user) {
+            $user->notify(new EmbroideryOrderNotification($embOrder,'pending'));
+        }
 
         $notification = array('message'=>'Embroidery Order Added Successfull', 'alert-type' => 'success');
 
@@ -129,7 +137,9 @@ class EmbroideryOrderController extends Controller
             'order_delivery_date'   => $request->order_delivery_date,
             'artisan_group_id'      => $request->artisan_group_id,
             'production_challan_id' => $request->production_challan_id,
-            'name'                  => $request->name,
+            'product_name'         => $request->product_name,
+            'design_name'          => $request->design_name,
+            'color_name'           => $request->color_name,
             'description'           => $request->description,
             'quantity'              => $request->quantity,
             'unit_price'            => $request->unit_price,
@@ -173,7 +183,7 @@ class EmbroideryOrderController extends Controller
         ]);
     }
 
-     public function embroideryOrderApprove($id){
+    public function embroideryOrderApprove($id){
 
         try {
             // 1. Find the purchase
